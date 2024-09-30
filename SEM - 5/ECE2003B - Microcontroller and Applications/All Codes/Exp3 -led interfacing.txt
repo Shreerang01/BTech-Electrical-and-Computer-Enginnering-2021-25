@@ -1,0 +1,49 @@
+
+/*
+  Shreerang Mhatre
+  Rollno: 52
+  Batch A3
+  Exp_3 - LED Interfacing
+  03/10/2023
+*/
+
+
+#include"C8051F340.h"
+#define LED P4
+sbit key3=P1^2;
+sbit key4=P1^3;
+sbit Relay=P1^4;
+sbit Buzzer=P3^3;
+
+void main()
+{
+XBR1=0X40;
+P1MDIN=0X0C;
+P3MDOUT=0X80;
+P1MDOUT=0X10;
+P4MDOUT=0XFF;
+
+while(1){
+	if(key3==0){
+		while(1){
+			Relay = 0;
+			Buzzer = 1;
+			LED = 0x00;
+			if(key4==0){
+					break;
+				    }
+			}
+		}
+	if(key3==0){
+		while(1){
+				LED = 0XFF;
+				Relay = 1;
+				Buzzer = 0;
+				if(key4==0){
+					break;
+					}
+			}
+		}
+	}
+}
+

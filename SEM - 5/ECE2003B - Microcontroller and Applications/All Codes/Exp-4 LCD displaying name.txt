@@ -1,0 +1,66 @@
+
+// LCD displaying Name
+
+
+#include"c8051f340.h"
+void DelayMs(unsigned int Ms);
+void Write_command_LCD(unsigned char character);
+void Write_Data_LCD(unsigned char name);
+sbit LCD_RS=P1^5;
+sbit LCD_RW=P1^6;
+sbit LCD_EN=P1^7;
+
+void main()
+{
+	unsigned char name[]={"SHREERANG"};
+	int i;
+	XBR1=0x40;
+	P2MDOUT=0xFF;
+	P1MDOUT=0xE0;
+
+	Write_command_LCD(0x38);
+	DelayMs(50);
+	Write_command_LCD(0x01);
+	DelayMs(50);
+	Write_command_LCD(0x0C);
+	DelayMs(50);
+	Write_command_LCD(0x80);
+	DelayMs(50);
+
+	for(i=0;name[i]!='\0'; i++)
+	{
+		Write_Data_LCD(name[i]);
+		DelayMs(50);
+	}
+	while(1);
+}
+void DelayMs(unsigned int Ms)
+{
+	unsigned int n;
+	unsigned int i;
+	for(n=0;n<Ms;n++)
+	{
+		for(i=0;i<65;i++);
+	}
+}
+
+void Write_Command_Lcd(unsigned char command)
+{
+	LCD_RS=0;
+	LCD_RW=0;
+	P2=command;
+	LCD_EN=1;
+	DelayMs(15);
+	LCD_EN=0;
+}
+
+void Write_Data_LCD(unsigned char character)
+{
+	LCD_RS=1;
+	LCD_RW=0;
+	P2=character;
+	LCD_EN=1;
+	DelayMs(15);
+	LCD_EN=0;
+}
+
